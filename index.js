@@ -26,6 +26,7 @@ const defaultOpts = {
     polling: false,
     pollInterval: 100,
     pollIntervalBinary: 300,
+    awaitWriteFinish: false,
     verbose: false,
     silent: false,
     initial: false,
@@ -109,6 +110,14 @@ const {argv} = yargs
         default: defaultOpts.pollIntervalBinary,
         type: 'number'
     })
+    .option('await-write-finish', {
+        describe: 'By default, the add event will fire when a file first ' +
+                  'appears on disk, before the entire file has been written. ' +
+                  'When set, will poll file size, holding its add and change ' +
+                  'events until the size does not change for 2 seconds.',
+        default: defaultOpts.awaitWriteFinish,
+        type: 'boolean'
+    })
     .option('verbose', {
         describe: 'When set, output is more verbose and human readable.',
         default: defaultOpts.verbose,
@@ -191,6 +200,7 @@ function createChokidarOpts(opts) {
         usePolling: opts.polling,
         interval: opts.pollInterval,
         binaryInterval: opts.pollIntervalBinary,
+        awaitWriteFinish: opts.awaitWriteFinish,
         ignoreInitial: !opts.initial
     };
 
