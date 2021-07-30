@@ -1,5 +1,5 @@
 {
-  "name": "@josegoncalves/chokidar-cli",
+  "name": "@josempgon/chokidar-cli",
   "description": "Ultra-fast cross-platform command line utility to watch file system changes.",
   "version": "3.0.0",
   "keywords": [
