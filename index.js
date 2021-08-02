@@ -27,6 +27,8 @@ const defaultOpts = {
     pollInterval: 100,
     pollIntervalBinary: 300,
     awaitWriteFinish: false,
+    awfStabilityThreshold: 2000,
+    awfPollInterval: 100,
     verbose: false,
     silent: false,
     initial: false,
@@ -113,10 +115,21 @@ const {argv} = yargs
     .option('await-write-finish', {
         describe: 'By default, the add event will fire when a file first ' +
                   'appears on disk, before the entire file has been written. ' +
-                  'When set, will poll file size, holding its add and change ' +
-                  'events until the size does not change for 2 seconds.',
+                  'When set, will poll file size, holding its add and change events ' +
+                  'until the size does not change for a configurable amount of time.',
         default: defaultOpts.awaitWriteFinish,
         type: 'boolean'
+    })
+    .option('awf-stability-threshold', {
+        describe: 'Amount of time in milliseconds for a file size to remain constant ' +
+                  'before emitting its event.',
+        default: defaultOpts.awfStabilityThreshold,
+        type: 'number'
+    })
+    .option('awf-poll-interval', {
+        describe: 'File size polling interval, in milliseconds.',
+        default: defaultOpts.awfPollInterval,
+        type: 'number'
     })
     .option('verbose', {
         describe: 'When set, output is more verbose and human readable.',
@@ -200,9 +213,15 @@ function createChokidarOpts(opts) {
         usePolling: opts.polling,
         interval: opts.pollInterval,
         binaryInterval: opts.pollIntervalBinary,
-        awaitWriteFinish: opts.awaitWriteFinish,
         ignoreInitial: !opts.initial
     };
+
+    if (opts.awaitWriteFinish) {
+        chokidarOpts.awaitWriteFinish = {
+            stabilityThreshold: opts.awfStabilityThreshold,
+            pollInterval: opts.awfPollInterval
+        };
+    }
 
     if (opts.ignore) {
         chokidarOpts.ignored = opts.ignore;
