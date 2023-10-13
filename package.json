@@ -19,14 +19,17 @@
   "bin": {
     "chokidar": "index.js"
   },
-  "homepage": "https://github.com/open-cli-tools/chokidar-cli",
+  "homepage": "https://github.com/JoseGoncalves/chokidar-cli",
   "author": "Kimmo Brunfeldt <kimmobrunfeldt@gmail.com>",
+  "contributors": [
+    "José Miguel Gonçalves <jose.goncalves@inov.pt>"
+  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/open-cli-tools/chokidar-cli.git"
+    "url": "https://github.com/JoseGoncalves/chokidar-cli.git"
   },
   "bugs": {
-    "url": "http://github.com/open-cli-tools/chokidar-cli/issues"
+    "url": "https://github.com/JoseGoncalves/chokidar-cli/issues"
   },
   "license": "MIT",
   "dependencies": {
